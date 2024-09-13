@@ -12,6 +12,8 @@
         <cmake.build.dir>${project.build.directory}/cmake-build</cmake.build.dir>
         <executable.version>UNDEFINED</executable.version>
         <library.version>UNDEFINED</library.version>
+        <executable.base_version>1.1.0</executable.base_version>
+        <library.base_version>4.2.0</library.base_version>
     </properties>
 
     <build>
@@ -33,9 +35,9 @@
                             <executable>cmake</executable>
                             <arguments>
                                 <argument>-S</argument>
-                                <argument>${basedir}</argument> <!-- Root directory with top-level CMakeLists.txt -->
+                                <argument>${basedir}</argument>
                                 <argument>-B</argument>
-                                <argument>${cmake.build.dir}</argument> <!-- Build directory -->
+                                <argument>${cmake.build.dir}</argument>
                                 <argument>-DEXECUTABLE_VERSION=${executable.version}</argument>
                                 <argument>-DLIBRARY_VERSION=${library.version}</argument>
                             </arguments>
@@ -54,7 +56,6 @@
                             <arguments>
                                 <argument>--build</argument>
                                 <argument>${cmake.build.dir}</argument>
-                                <argument>--verbose</argument> <!-- Enable verbose output -->
                             </arguments>
                         </configuration>
                     </execution>
@@ -65,20 +66,20 @@
 
     <profiles>
         <profile>
-            <id>feature-branch</id>
+            <!-- Default profile that will add '-SNAPSHOT' to the version in development. -->
+            <id>develop-branch</id>
             <activation>
-                <property>
-                    <name>branch</name>
-                    <value>feature</value>
-                </property>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <executable.version>1.1.0-SNAPSHOT</executable.version>
-                <library.version>1.1.0-SNAPSHOT</library.version>
+                <executable.version>${executable.base_version}-SNAPSHOT</executable.version>
+                <library.version>${library.base_version}-SNAPSHOT</library.version>
             </properties>
         </profile>
 
         <profile>
+            <!-- Profile that will only be used when the current branch is main, this will
+                 set the versions to the official non-development versions. -->
             <id>main-branch</id>
             <activation>
                 <property>
@@ -87,8 +88,8 @@
                 </property>
             </activation>
             <properties>
-                <executable.version>1.0.1</executable.version>
-                <library.version>1.0.1</library.version>
+                <executable.version>${executable.base_version}</executable.version>
+                <library.version>${library.base_version}</library.version>
             </properties>
         </profile>
     </profiles>
