@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>my-cpp-project</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <cmake.build.dir>${project.build.directory}/cmake-build</cmake.build.dir>
+        <executable.version>1.0.0</executable.version>
+        <library.version>1.0.0</library.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- Use CMake plugin or custom scripts to build C++ project -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>cmake</executable>
+                            <arguments>
+                                <argument>-S</argument>
+                                <argument>.</argument>
+                                <argument>-B</argument>
+                                <argument>${cmake.build.dir}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build-project</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>cmake</executable>
+                            <arguments>
+                                <argument>--build</argument>
+                                <argument>${cmake.build.dir}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>feature-branch</id>
+            <activation>
+                <property>
+                    <name>branch</name>
+                    <value>feature</value>
+                </property>
+            </activation>
+            <properties>
+                <executable.version>1.1.0-SNAPSHOT</executable.version>
+                <library.version>1.1.0-SNAPSHOT</library.version>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>release-branch</id>
+            <activation>
+                <property>
+                    <name>branch</name>
+                    <value>release</value>
+                </property>
+            </activation>
+            <properties>
+                <executable.version>1.0.0</executable.version>
+                <library.version>1.0.0</library.version>
+            </properties>
+        </profile>
+    </profiles>
+</project>
