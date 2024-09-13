@@ -1,5 +1,0 @@
-cmake_minimum_required(VERSION 3.10)
-project(version_lib)
-
-add_library(version_lib src/main.cpp)
-target_compile_definitions(version_lib PRIVATE LIBRARY_VERSION="${library.version}")

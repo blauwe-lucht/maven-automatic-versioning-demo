@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.example</groupId>
+    <groupId>nl.blauwe-lucht</groupId>
     <artifactId>my-cpp-project</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
@@ -22,8 +22,10 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.0.0</version>
                 <executions>
+                    <!-- Configure the project (both lib and app) -->
                     <execution>
-                        <phase>compile</phase>
+                        <id>configure-project</id>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
@@ -31,15 +33,17 @@
                             <executable>cmake</executable>
                             <arguments>
                                 <argument>-S</argument>
-                                <argument>.</argument>
+                                <argument>${basedir}</argument> <!-- Root directory with top-level CMakeLists.txt -->
                                 <argument>-B</argument>
-                                <argument>${cmake.build.dir}</argument>
+                                <argument>${cmake.build.dir}</argument> <!-- Build directory -->
                             </arguments>
                         </configuration>
                     </execution>
+
+                    <!-- Build the project -->
                     <execution>
                         <id>build-project</id>
-                        <phase>install</phase>
+                        <phase>compile</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
@@ -48,6 +52,7 @@
                             <arguments>
                                 <argument>--build</argument>
                                 <argument>${cmake.build.dir}</argument>
+                                <argument>--verbose</argument> <!-- Enable verbose output -->
                             </arguments>
                         </configuration>
                     </execution>
@@ -72,11 +77,11 @@
         </profile>
 
         <profile>
-            <id>release-branch</id>
+            <id>main-branch</id>
             <activation>
                 <property>
                     <name>branch</name>
-                    <value>release</value>
+                    <value>main</value>
                 </property>
             </activation>
             <properties>
