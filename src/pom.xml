@@ -10,8 +10,8 @@
 
     <properties>
         <cmake.build.dir>${project.build.directory}/cmake-build</cmake.build.dir>
-        <executable.version>1.0.0</executable.version>
-        <library.version>1.0.0</library.version>
+        <executable.version>UNDEFINED</executable.version>
+        <library.version>UNDEFINED</library.version>
     </properties>
 
     <build>
@@ -87,8 +87,8 @@
                 </property>
             </activation>
             <properties>
-                <executable.version>1.0.0</executable.version>
-                <library.version>1.0.0</library.version>
+                <executable.version>1.0.1</executable.version>
+                <library.version>1.0.1</library.version>
             </properties>
         </profile>
     </profiles>
