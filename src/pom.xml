@@ -36,6 +36,8 @@
                                 <argument>${basedir}</argument> <!-- Root directory with top-level CMakeLists.txt -->
                                 <argument>-B</argument>
                                 <argument>${cmake.build.dir}</argument> <!-- Build directory -->
+                                <argument>-DEXECUTABLE_VERSION=${executable.version}</argument>
+                                <argument>-DLIBRARY_VERSION=${library.version}</argument>
                             </arguments>
                         </configuration>
                     </execution>
